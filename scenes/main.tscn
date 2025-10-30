@@ -1,7 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://cqow47bch5ocs"]
+[gd_scene load_steps=7 format=3 uid="uid://cqow47bch5ocs"]
 
 [ext_resource type="Script" uid="uid://cd5et0owj66hn" path="res://scripts/gdscript/Main.gd" id="1_o5qli"]
 [ext_resource type="Script" uid="uid://de4cj01pfj4xx" path="res://scripts/c#/Win32API.cs" id="2_0wfyh"]
+[ext_resource type="Script" uid="uid://d2gresqpxqyem" path="res://scenes/task_bar.gd" id="3_sugp2"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_0wfyh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sugp2"]
+bg_color = Color(0.1070111, 0.4116076, 0.24517298, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jyhfs"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -15,7 +23,48 @@ script = ExtResource("1_o5qli")
 
 [node name="WallpaperBackground" type="TextureRect" parent="VBoxContainer"]
 layout_mode = 2
+texture = SubResource("PlaceholderTexture2D_0wfyh")
 stretch_mode = 6
 
-[node name="Win32API" type="Node" parent="VBoxContainer"]
+[node name="Win32API" type="Node" parent="."]
 script = ExtResource("2_0wfyh")
+
+[node name="Task_bar" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -6.0
+offset_top = 1031.0
+offset_right = 1147.0
+offset_bottom = 1059.755
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.6800005, 1.8)
+size_flags_vertical = 3
+color = Color(0.09320182, 0.47079715, 0.8243923, 1)
+script = ExtResource("3_sugp2")
+
+[node name="Lighter_color" type="ColorRect" parent="Task_bar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -467.05933
+offset_bottom = -20.113037
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.6800005, 1.8)
+size_flags_vertical = 3
+color = Color(0.15631443, 0.5434008, 0.92609, 1)
+script = ExtResource("3_sugp2")
+
+[node name="Button" type="Button" parent="Task_bar"]
+layout_mode = 0
+offset_right = 981.12463
+offset_bottom = 570.0
+scale = Vector2(0.051, 0.051)
+theme_override_font_sizes/font_size = 300
+theme_override_styles/normal = SubResource("StyleBoxFlat_sugp2")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxFlat_jyhfs")
+text = "Start"

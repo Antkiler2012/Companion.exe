@@ -1,7 +1,7 @@
 extends VBoxContainer
 
 @onready var wallpaper_node = $WallpaperBackground 
-@onready var Win32API = $Win32API
+@onready var Win32API = $"../Win32API"
 func _ready():
 	load_desktop_wallpaper()
 
