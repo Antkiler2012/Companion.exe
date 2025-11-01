@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cqow47bch5ocs"]
+[gd_scene load_steps=14 format=3 uid="uid://cqow47bch5ocs"]
 
 [ext_resource type="Script" uid="uid://cd5et0owj66hn" path="res://scripts/gdscript/Main.gd" id="1_o5qli"]
 [ext_resource type="Script" uid="uid://de4cj01pfj4xx" path="res://scripts/c#/Win32API.cs" id="2_0wfyh"]
@@ -6,6 +6,8 @@
 [ext_resource type="FontFile" uid="uid://obpr23r6hu0j" path="res://Fonts/Nunito-Italic-VariableFont_wght.ttf" id="4_jyhfs"]
 [ext_resource type="Texture2D" uid="uid://crb65kagxtt44" path="res://images/New Piskel(5).png" id="5_tefeu"]
 [ext_resource type="FontFile" uid="uid://btu1p5snwo2qd" path="res://Fonts/Nunito-VariableFont_wght.ttf" id="6_o6xl0"]
+[ext_resource type="Script" uid="uid://t06hgilxluga" path="res://scenes/Ignor_Error.gd" id="7_o6xl0"]
+[ext_resource type="Script" uid="uid://dxpobypggqa6q" path="res://scenes/Ignore.gd" id="7_tipki"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_0wfyh"]
 
@@ -21,9 +23,9 @@ variation_opentype = {
 }
 
 [sub_resource type="FontVariation" id="FontVariation_85g3d"]
-base_font = ExtResource("4_jyhfs")
+base_font = ExtResource("6_o6xl0")
 variation_opentype = {
-2003265652: 200
+2003265652: 500
 }
 
 [node name="Main" type="Control"]
@@ -93,7 +95,7 @@ color = Color(0.15686275, 0.54509807, 0.9254902, 1)
 
 [node name="Top_bar" type="ColorRect" parent="Notification"]
 layout_mode = 0
-offset_right = 341.0
+offset_right = 434.0
 offset_bottom = 40.0
 color = Color(0.09411765, 0.47058824, 0.8235294, 1)
 
@@ -134,6 +136,7 @@ offset_bottom = 262.0
 theme_override_fonts/font = SubResource("FontVariation_tipki")
 text = "Ignore
 "
+script = ExtResource("7_tipki")
 
 [node name="Label" type="Label" parent="Notification"]
 layout_mode = 0
@@ -146,3 +149,53 @@ theme_override_font_sizes/font_size = 25
 text = "Your personal 'mental
  health' assistant"
 horizontal_alignment = 1
+
+[node name="ignore_info" type="ColorRect" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 742.0
+offset_top = 396.0
+offset_right = 1242.0
+offset_bottom = 671.0
+color = Color(0.15686275, 0.54509807, 0.9254902, 1)
+
+[node name="Top_bar" type="ColorRect" parent="ignore_info"]
+layout_mode = 0
+offset_right = 500.0
+offset_bottom = 40.0
+color = Color(0.09411765, 0.47058824, 0.8235294, 1)
+
+[node name="Label" type="Label" parent="ignore_info/Top_bar"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 4.0
+offset_right = 174.0
+offset_bottom = 39.0
+theme_override_fonts/font = ExtResource("4_jyhfs")
+theme_override_font_sizes/font_size = 25
+text = "info"
+
+[node name="Button" type="Button" parent="ignore_info"]
+layout_mode = 0
+offset_left = 190.0
+offset_top = 200.0
+offset_right = 332.8
+offset_bottom = 242.0
+theme_override_fonts/font = SubResource("FontVariation_tipki")
+text = "Ok
+"
+script = ExtResource("7_o6xl0")
+
+[node name="Label" type="Label" parent="ignore_info"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 44.0
+offset_right = 480.0
+offset_bottom = 185.0
+theme_override_fonts/font = SubResource("FontVariation_85g3d")
+theme_override_font_sizes/font_size = 50
+text = "Error while 
+ignoring notification"
+horizontal_alignment = 1
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]

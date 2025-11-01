@@ -2,8 +2,14 @@ extends VBoxContainer
 
 @onready var wallpaper_node = $WallpaperBackground 
 @onready var Win32API = $"../Win32API"
+
+func wait(seconds: float) -> void:
+	await get_tree().create_timer(seconds).timeout
+
 func _ready():
 	load_desktop_wallpaper()
+	await wait(3)
+	typehello()
 
 func load_desktop_wallpaper():
 	var path = Win32API.GetDesktopWallpaperPath()
@@ -17,3 +23,6 @@ func load_desktop_wallpaper():
 			wallpaper_node.modulate = Color(0, 0, 0, 1)     
 	else:
 		wallpaper_node.modulate = Color(0, 0, 0, 1)
+		
+func typehello():
+	Win32API.OpenNotepadAndTypeHello()

@@ -2,49 +2,47 @@ using System;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Diagnostics;
+using System.Threading;
 using Godot;
 
-public partial class Win32API : Godot.Node
+public partial class Win32API : Node
 {
 	public const uint SW_MINIMIZE = 2; 
+	public const uint SW_RESTORE = 9;
+
 	[DllImport("user32.dll", SetLastError = true)]
 	private static extern bool SetForegroundWindow(IntPtr hWnd);
-	
-	[DllImport("user32.dll", SetLastError = true)]
-	[return: MarshalAs(UnmanagedType.Bool)]
-	private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+
+	[DllImport("user32.dll")]
+	private static extern bool ShowWindow(IntPtr hWnd, uint nCmdShow);
 
 	[DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
 	private static extern int SystemParametersInfo(int uAction, int uParam, StringBuilder lpvParam, int fuWinIni);
 
 	[DllImport("user32.dll")]
-	private static extern bool ShowWindow(IntPtr hWnd, uint nCmdShow);
-	
+	private static extern IntPtr GetActiveWindow();
+
 	[DllImport("user32.dll")]
-	public static extern bool FlashWindowEx(ref FLASHWINFO pwfi);
+	private static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, UIntPtr dwExtraInfo);
 
+	[DllImport("user32.dll")]
+	private static extern short VkKeyScan(char ch);
 
-	[StructLayout(LayoutKind.Sequential)]
-	public struct FLASHWINFO
+	private const int KEYEVENTF_KEYUP = 0x0002;
+
+	private void SendKeysWin32(string text, int delayMs = 100)
 	{
-		public uint cbSize;
-		public IntPtr hwnd;
-		public FlashFlags dwFlags;
-		public uint uCount;
-		public uint dwTimeout;
-	}
+		foreach (char c in text)
+		{
+			short vk = VkKeyScan(c);
+			byte vkCode = (byte)(vk & 0xff);
 
-	[Flags]
-	public enum FlashFlags : uint
-	{
-		FLASHW_STOP = 0,
-		FLASHW_CAPTION = 1,
-		FLASHW_TRAY = 2,
-		FLASHW_ALL = 3,
-		FLASHW_TIMER = 4,
-		FLASHW_TIMERNOFG = 12
-	}
+			keybd_event(vkCode, 0, 0, UIntPtr.Zero);
+			keybd_event(vkCode, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
 
+			Thread.Sleep(delayMs);
+		}
+	}
 
 	private IntPtr GetWindowHandleByProcessName(string processName)
 	{
@@ -56,32 +54,35 @@ public partial class Win32API : Godot.Node
 	{
 		const int SPI_GETDESKWALLPAPER = 0x0073;
 		const int MAX_PATH = 260;
-		
+
 		StringBuilder wallpaperPath = new StringBuilder(MAX_PATH);
 		SystemParametersInfo(SPI_GETDESKWALLPAPER, MAX_PATH, wallpaperPath, 0);
 		return wallpaperPath.ToString();
 	}
 
-	public void StartFlashing(string processName)
+	public void OpenNotepadAndTypeHello()
 	{
-		IntPtr hWnd = GetWindowHandleByProcessName(processName);
-		
-		FLASHWINFO fInfo = new FLASHWINFO();
-		fInfo.cbSize = (uint)Marshal.SizeOf(fInfo);
-		fInfo.hwnd = hWnd;
-		fInfo.dwFlags = FlashFlags.FLASHW_ALL | FlashFlags.FLASHW_TIMERNOFG; 
-		fInfo.uCount = uint.MaxValue;
-		fInfo.dwTimeout = 0;
+		IntPtr gameHandle = GetActiveWindow();
+		Process notepad = Process.Start("notepad.exe");
+		notepad.WaitForInputIdle();
+		Thread.Sleep(300);
 
-		FlashWindowEx(ref fInfo);
+		SetForegroundWindow(notepad.MainWindowHandle);
+
+		SendKeysWin32("Hello", 200);
+
+		Thread.Sleep(500);
+		ShowWindow(gameHandle, SW_RESTORE);
+		SetForegroundWindow(gameHandle);
 	}
-	
+
 	public void StealFocus()
 	{
 		IntPtr hWnd = Process.GetCurrentProcess().MainWindowHandle;
+		ShowWindow(hWnd, SW_RESTORE);
 		SetForegroundWindow(hWnd);
 	}
-	
+
 	public bool MinimizeExternalWindow(string processName)
 	{
 		IntPtr hWnd = GetWindowHandleByProcessName(processName); 
