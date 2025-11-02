@@ -2,6 +2,10 @@
 THIS GAME IS NOT A VIRUS. this game uses c# with win 32 api calls to manipulate your system. the game dosent do anything bad to your pc.
 i took very much insperation from kinito pet.The game still containst very much bugs.
 
+# how to run
+1.download from itch io https://antkiler5.itch.io/companionexe
+2.extract zip file
+3.run game.exe
 # Virustotal result:
 heres the virus total result if your still skeptical
 https://www.virustotal.com/gui/file-analysis/YTNjYmQwZmE0OGQ1MDMzZmEwMjFiYjdiMzFlZWFjMDg6MTc2MjEyNjI3NQ==
