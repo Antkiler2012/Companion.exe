@@ -1,0 +1,9 @@
+extends Button
+
+@onready var Win32API = $"../../Win32API"
+
+func _ready():
+	connect("pressed", Callable(self, "_on_pressed"))
+
+func _on_pressed():
+	Win32API.OpenNotepadAndTypeHello()

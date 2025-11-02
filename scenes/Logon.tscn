@@ -1,0 +1,108 @@
+[gd_scene load_steps=15 format=3 uid="uid://bdmcl3dw6fmpb"]
+
+[ext_resource type="Script" uid="uid://de4cj01pfj4xx" path="res://scripts/c#/Win32API.cs" id="1_0626y"]
+[ext_resource type="Script" uid="uid://b8kfggnwf873k" path="res://scripts/gdscript/Logon_main.gd" id="2_0626y"]
+[ext_resource type="Texture2D" uid="uid://bulyv47avaikv" path="res://images/FyaPV.png" id="3_ipru0"]
+[ext_resource type="Texture2D" uid="uid://do3ju3215f1ob" path="res://images/nzqx7y0d99xe1.jpeg" id="4_f7rkl"]
+[ext_resource type="Texture2D" uid="uid://3tokrgmbaf0a" path="res://images/back_button.png" id="5_f7rkl"]
+[ext_resource type="Script" uid="uid://cb8cqyoy88at3" path="res://scenes/login.gd" id="6_5gj06"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_0626y"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_f7rkl"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5gj06"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wfby8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7ef6c"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gsk34"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qlgvh"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bq017"]
+
+[node name="Logon" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Win32API" type="Node" parent="."]
+script = ExtResource("1_0626y")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_0626y")
+
+[node name="WallpaperBackground" type="TextureRect" parent="VBoxContainer"]
+layout_mode = 2
+texture = SubResource("PlaceholderTexture2D_0626y")
+stretch_mode = 6
+
+[node name="User_Icon" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 821.0
+offset_top = 259.0
+offset_right = 1154.2773
+offset_bottom = 582.0
+texture = ExtResource("3_ipru0")
+
+[node name="TextureRect" type="TextureRect" parent="User_Icon"]
+layout_mode = 0
+offset_left = 55.999985
+offset_top = 51.0
+offset_right = 629.0
+offset_bottom = 624.0
+scale = Vector2(0.39, 0.39)
+texture = ExtResource("4_f7rkl")
+
+[node name="User_Icon2" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 770.0
+offset_top = 578.0
+offset_right = 976.0
+offset_bottom = 768.0
+scale = Vector2(2.175, 0.43)
+texture = ExtResource("3_ipru0")
+
+[node name="TextEdit" type="TextEdit" parent="User_Icon2"]
+layout_mode = 0
+offset_left = 34.482758
+offset_top = 32.55814
+offset_right = 573.5858
+offset_bottom = 129.81413
+scale = Vector2(0.255, 1.24)
+theme_override_colors/search_result_color = Color(0.3019608, 0.3019608, 0.3019608, 1)
+theme_override_colors/caret_background_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
+theme_override_colors/current_line_color = Color(0.25030932, 0.25030932, 0.26006752, 0)
+theme_override_font_sizes/font_size = 50
+placeholder_text = "Password"
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1243.0001
+offset_top = 645.00006
+offset_right = 3630.0
+offset_bottom = 3025.0
+rotation = 3.1415927
+scale = Vector2(0.025, 0.025)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
+theme_override_colors/icon_disabled_color = Color(0, 0, 0, 0)
+theme_override_styles/normal = SubResource("StyleBoxEmpty_f7rkl")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_5gj06")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_wfby8")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_7ef6c")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_gsk34")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_qlgvh")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_bq017")
+icon = ExtResource("5_f7rkl")
+script = ExtResource("6_5gj06")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]

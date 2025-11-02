@@ -3,11 +3,13 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Diagnostics;
 using System.Threading;
+using System.IO;
+using System.Security.Principal;
 using Godot;
 
 public partial class Win32API : Node
 {
-	public const uint SW_MINIMIZE = 2; 
+	public const uint SW_MINIMIZE = 2;
 	public const uint SW_RESTORE = 9;
 
 	[DllImport("user32.dll", SetLastError = true)]
@@ -36,10 +38,8 @@ public partial class Win32API : Node
 		{
 			short vk = VkKeyScan(c);
 			byte vkCode = (byte)(vk & 0xff);
-
 			keybd_event(vkCode, 0, 0, UIntPtr.Zero);
 			keybd_event(vkCode, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
-
 			Thread.Sleep(delayMs);
 		}
 	}
@@ -54,7 +54,6 @@ public partial class Win32API : Node
 	{
 		const int SPI_GETDESKWALLPAPER = 0x0073;
 		const int MAX_PATH = 260;
-
 		StringBuilder wallpaperPath = new StringBuilder(MAX_PATH);
 		SystemParametersInfo(SPI_GETDESKWALLPAPER, MAX_PATH, wallpaperPath, 0);
 		return wallpaperPath.ToString();
@@ -66,11 +65,8 @@ public partial class Win32API : Node
 		Process notepad = Process.Start("notepad.exe");
 		notepad.WaitForInputIdle();
 		Thread.Sleep(300);
-
 		SetForegroundWindow(notepad.MainWindowHandle);
-
 		SendKeysWin32("Hello", 200);
-
 		Thread.Sleep(500);
 		ShowWindow(gameHandle, SW_RESTORE);
 		SetForegroundWindow(gameHandle);
@@ -85,7 +81,23 @@ public partial class Win32API : Node
 
 	public bool MinimizeExternalWindow(string processName)
 	{
-		IntPtr hWnd = GetWindowHandleByProcessName(processName); 
-		return ShowWindow(hWnd, SW_MINIMIZE); 
+		IntPtr hWnd = GetWindowHandleByProcessName(processName);
+		return ShowWindow(hWnd, SW_MINIMIZE);
+	}
+
+	public Godot.Image GetWindowsUserIcon()
+	{
+		string username = WindowsIdentity.GetCurrent().Name.Split('\\')[1];
+		string path = $@"C:\Users\{username}\AppData\Roaming\Microsoft\Windows\AccountPictures";
+		string[] files = Directory.GetFiles(path, "*.png");
+		if (files.Length == 0)
+			return null;
+
+		Godot.Image img = new Godot.Image();
+		Error err = img.Load(files[0]);
+		if (err != Error.Ok)
+			return null;
+
+		return img;
 	}
 }

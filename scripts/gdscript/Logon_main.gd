@@ -2,18 +2,14 @@ extends VBoxContainer
 
 @onready var wallpaper_node = $WallpaperBackground 
 @onready var Win32API = $"../Win32API"
-@onready var audio = $"../AudioStreamPlayer"
-@onready var noti = $"../Notification"
+@onready var icon_node = $"../User_Icon/TextureRect"
 
 func wait(seconds: float) -> void:
 	await get_tree().create_timer(seconds).timeout
 
 func _ready():
-	audio.stream = preload("res://SFX/windows-7-startup.mp3")
-	audio.play()
 	load_desktop_wallpaper()
-	await wait(10)
-	noti.visible = true
+	load_user_image()
 
 func load_desktop_wallpaper():
 	var path = Win32API.GetDesktopWallpaperPath()
@@ -28,5 +24,10 @@ func load_desktop_wallpaper():
 	else:
 		wallpaper_node.modulate = Color(0, 0, 0, 1)
 		
+func load_user_image():
+	var img = Win32API.GetWindowsUserIcon()
+	var texture = ImageTexture.create_from_image(img)
+	icon_node.texture = texture
+
 func typehello():
 	Win32API.OpenNotepadAndTypeHello()
