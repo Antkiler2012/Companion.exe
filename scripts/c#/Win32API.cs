@@ -168,6 +168,10 @@ public static void tts(string text)
 		CreateNoWindow = true
 	});
 }
+	public void exit()
+	{
+		 GetTree().Quit();
+	}
 	public void StealFocus()
 	{
 		IntPtr hWnd = Process.GetCurrentProcess().MainWindowHandle;

@@ -15,7 +15,7 @@ func _ready():
 		audio.stream = preload("res://SFX/windows-7-startup.mp3")
 		audio.play()
 		load_desktop_wallpaper()
-		await wait(1)
+		await wait(10)
 		noti.visible = true
 	else:
 		show_kora()
@@ -53,14 +53,14 @@ var dialogues = {
 		]
 	},
 	"know_more": {
-		"text": "Nice, I’d like to get to know you better.",
+		"text": "Nice, I’d like to get\nto know you better.",
 		"options": [
 			{"text": "Sure", "next": "system_check"},
 			{"text": "No", "next": "why_not_two"}
 		]
 	},
 	"system_check": {
-		"text": "Let me check something real quick...",
+		"text": "Let me check\nsomething real quick...",
 		"options": [
 			{"text": "Okay", "next": "dot", "callback": "OpenFileExplorer"}
 		]
@@ -79,9 +79,21 @@ var dialogues = {
 		]
 	},
 	"reveal": {
-		"text": "You have some interesting files...",
+		"text": "You have some\ninteresting files...",
 		"options": [
-			{"text": "WHY ARE YOU LOOKING AT MY FILES?", "next": ""}
+			{"text": "WHY ARE YOU LOOKING AT MY FILES?", "next": "i_wanted_to"}
+		]
+	},
+	"i_wanted_to": {
+		"text": "I wanted to learn\nmore about you..",
+		"options": [
+			{"text": "DELETE YOUR SELF", "next": "delete_you"}
+		]
+	},
+	"delete_you": {
+		"text": "I cant delete myself,\nbut i can delete YOU!",
+		"options": [
+			{"text": "What?", "next": "dot", "callback": "exit"}
 		]
 	},
 	"age": {
