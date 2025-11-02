@@ -6,4 +6,4 @@ func _ready():
 	connect("pressed", Callable(self, "_on_pressed"))
 
 func _on_pressed():
-	Win32API.OpenNotepadAndTypeHello()
+	Win32API.OpenDownloadingBat()
