@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.IO;
 using System.Security.Principal;
+using System.Collections.Generic;
 using Godot;
 
 public partial class Win32API : Node
@@ -71,13 +72,23 @@ public partial class Win32API : Node
 		ShowWindow(gameHandle, SW_RESTORE);
 		SetForegroundWindow(gameHandle);
 	}
+	
+public void OpenFileExplorer()
+{
+	Process explorer = Process.Start("explorer.exe");
+	explorer.WaitForInputIdle();
+	Thread.Sleep(300);
+	SetForegroundWindow(explorer.MainWindowHandle);
+	ShowWindow(explorer.MainWindowHandle, SW_RESTORE);
+}
 
-	public void OpenDownloadingBat()
+	
+	public void OpenAdminBat()
 	{
 		IntPtr gameHandle = GetActiveWindow();
 		string exeDir = AppDomain.CurrentDomain.BaseDirectory;
-		string batPath = Path.Combine(exeDir, "downloading.bat");
-		Process batProcess = new Process()
+		string batPath = Path.Combine(exeDir, "admin.bat");
+		Process adminProcess = new Process()
 		{
 			StartInfo = new ProcessStartInfo()
 			{
@@ -86,27 +97,77 @@ public partial class Win32API : Node
 				WorkingDirectory = exeDir
 			}
 		};
-		batProcess.Start();
-		Thread.Sleep(5000);
+		adminProcess.Start();
+		Thread.Sleep(2000);
 		ShowWindow(gameHandle, SW_RESTORE);
 		SetForegroundWindow(gameHandle);
-		batProcess.CloseMainWindow();
-		batProcess.Kill();
-		Node start = GetNode("../VBoxContainer");
-		start.CallDeferred("show_kora");
+		adminProcess.Kill();
+		adminProcess.Dispose();
 	}
 
-	public static void tts(string text)
+public void OpenDownloadingBat()
+{
+	Node audio = GetNode("../AudioStreamPlayer");
+	AudioStreamPlayer player = audio as AudioStreamPlayer;
+	player.Stream = (AudioStream)GD.Load("res://SFX/error.mp3");
+	IntPtr gameHandle = GetActiveWindow();
+	string exeDir = AppDomain.CurrentDomain.BaseDirectory;
+	string downloadingPath = Path.Combine(exeDir, "downloading.bat");
+	Process downloadingProcess = new Process()
 	{
-		string psCommand = $"Add-Type –AssemblyName System.Speech; " +
-						   $"(New-Object System.Speech.Synthesis.SpeechSynthesizer).Speak('{text}')";
-		Process.Start(new ProcessStartInfo("powershell", $"-Command \"{psCommand}\"")
+		StartInfo = new ProcessStartInfo()
 		{
-			UseShellExecute = false,
-			CreateNoWindow = true
-		});
+			FileName = downloadingPath,
+			UseShellExecute = true,
+			WorkingDirectory = exeDir
+		}
+	};
+	downloadingProcess.Start();
+	Thread.Sleep(5000);
+	ShowWindow(gameHandle, SW_RESTORE);
+	SetForegroundWindow(gameHandle);
+	downloadingProcess.CloseMainWindow();
+	downloadingProcess.Kill();
+	string errorPath = Path.Combine(exeDir, "error.bat");
+	List<Process> errorProcesses = new List<Process>();
+	for (int i = 0; i < 10; i++)
+	{
+		Process errorProcess = new Process()
+		{
+			StartInfo = new ProcessStartInfo()
+			{
+				FileName = errorPath,
+				UseShellExecute = true,
+				WorkingDirectory = exeDir
+			}
+		}; 
+		errorProcess.Start();
+		player.Play();
+		errorProcesses.Add(errorProcess);
+		Thread.Sleep(100);
 	}
+	Thread.Sleep(1000);
+	foreach (var proc in errorProcesses)
+	{
+		proc.CloseMainWindow();
+		proc.Kill();
+	}
+	Node start = GetNode("../VBoxContainer");
+	start.CallDeferred("crash");
+}
 
+public static void tts(string text)
+{
+	string escaped = text.Replace("'", "''");
+	string psCommand =
+		"Add-Type -AssemblyName System.Speech; " +
+		$"(New-Object System.Speech.Synthesis.SpeechSynthesizer).Speak('{escaped}')";
+	Process.Start(new ProcessStartInfo("powershell", $"-Command \"{psCommand}\"")
+	{
+		UseShellExecute = false,
+		CreateNoWindow = true
+	});
+}
 	public void StealFocus()
 	{
 		IntPtr hWnd = Process.GetCurrentProcess().MainWindowHandle;

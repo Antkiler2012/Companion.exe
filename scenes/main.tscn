@@ -216,10 +216,10 @@ texture = ExtResource("5_tefeu")
 
 [node name="Text" type="Label" parent="Kora"]
 layout_mode = 0
-offset_left = 205.0
-offset_top = 25.0
-offset_right = 341.0
-offset_bottom = 100.0
+offset_left = 193.0
+offset_top = 19.0
+offset_right = 436.0
+offset_bottom = 94.0
 text = "Hello, i will 
 be your personal
  assistant now."
@@ -230,24 +230,35 @@ z_index = -1
 layout_mode = 0
 offset_left = -16.0
 offset_top = -1.0
-offset_right = 348.0
+offset_right = 440.0
 offset_bottom = 220.0
 color = Color(0, 0, 0, 0.20400001)
 
 [node name="Option_one" type="Button" parent="Kora"]
+visible = false
 layout_mode = 0
-offset_left = 215.0
-offset_top = 106.0
-offset_right = 334.0
-offset_bottom = 150.0
+offset_left = 207.0
+offset_top = 100.0
+offset_right = 434.0
+offset_bottom = 144.0
 text = "Hello"
 autowrap_mode = 3
 
 [node name="Option_two" type="Button" parent="Kora"]
+visible = false
 layout_mode = 0
-offset_left = 215.0
-offset_top = 155.0
-offset_right = 334.0
-offset_bottom = 199.0
+offset_left = 207.0
+offset_top = 149.0
+offset_right = 433.0
+offset_bottom = 203.0
 text = "How do i delete you?"
 autowrap_mode = 3
+
+[node name="TextEdit" type="TextEdit" parent="Kora"]
+visible = false
+layout_mode = 0
+offset_left = 207.0
+offset_top = 103.0
+offset_right = 431.0
+offset_bottom = 145.0
+placeholder_text = "Name"

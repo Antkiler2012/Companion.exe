@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3 uid="uid://bx4l7jdofdpia"]
+
+[ext_resource type="Script" uid="uid://dvf63itkm468n" path="res://scripts/gdscript/crash.gd" id="1_ypw0c"]
+
+[node name="Crash" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ypw0c")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = -66.0
+offset_top = -38.0
+offset_right = 1967.0
+offset_bottom = 1131.0
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="ColorRect"]
+layout_mode = 0
+offset_left = 393.0
+offset_top = 185.0
+offset_right = 1656.0
+offset_bottom = 401.0
+theme_override_colors/font_color = Color(0.9802175, 0, 0.12961856, 1)
+theme_override_font_sizes/font_size = 50
+text = "CRITICAL ERROR, PLEASE WAIT WHILE WE GATHER
+INFORMATION"
+horizontal_alignment = 1
