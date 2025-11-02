@@ -85,13 +85,26 @@ public partial class Win32API : Node
 				UseShellExecute = true,
 				WorkingDirectory = exeDir
 			}
-			};
+		};
 		batProcess.Start();
 		Thread.Sleep(5000);
 		ShowWindow(gameHandle, SW_RESTORE);
 		SetForegroundWindow(gameHandle);
 		batProcess.CloseMainWindow();
-		batProcess.Kill(); 
+		batProcess.Kill();
+		Node start = GetNode("../VBoxContainer");
+		start.CallDeferred("show_kora");
+	}
+
+	public static void tts(string text)
+	{
+		string psCommand = $"Add-Type –AssemblyName System.Speech; " +
+						   $"(New-Object System.Speech.Synthesis.SpeechSynthesizer).Speak('{text}')";
+		Process.Start(new ProcessStartInfo("powershell", $"-Command \"{psCommand}\"")
+		{
+			UseShellExecute = false,
+			CreateNoWindow = true
+		});
 	}
 
 	public void StealFocus()
@@ -112,14 +125,8 @@ public partial class Win32API : Node
 		string username = WindowsIdentity.GetCurrent().Name.Split('\\')[1];
 		string path = $@"C:\Users\{username}\AppData\Roaming\Microsoft\Windows\AccountPictures";
 		string[] files = Directory.GetFiles(path, "*.png");
-		if (files.Length == 0)
-			return null;
-
 		Godot.Image img = new Godot.Image();
-		Error err = img.Load(files[0]);
-		if (err != Error.Ok)
-			return null;
-
+		img.Load(files[0]);
 		return img;
 	}
 }
