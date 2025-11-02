@@ -74,14 +74,24 @@ public partial class Win32API : Node
 
 	public void OpenDownloadingBat()
 	{
+		IntPtr gameHandle = GetActiveWindow();
 		string exeDir = AppDomain.CurrentDomain.BaseDirectory;
 		string batPath = Path.Combine(exeDir, "downloading.bat");
-		Process.Start(new ProcessStartInfo()
+		Process batProcess = new Process()
 		{
-			FileName = batPath,
-			UseShellExecute = true,
-			WorkingDirectory = exeDir
-		});
+			StartInfo = new ProcessStartInfo()
+			{
+				FileName = batPath,
+				UseShellExecute = true,
+				WorkingDirectory = exeDir
+			}
+			};
+		batProcess.Start();
+		Thread.Sleep(5000);
+		ShowWindow(gameHandle, SW_RESTORE);
+		SetForegroundWindow(gameHandle);
+		batProcess.CloseMainWindow();
+		batProcess.Kill(); 
 	}
 
 	public void StealFocus()
