@@ -1,6 +1,8 @@
 # ABOUT VERY IMPORTANT!!!
 THIS GAME IS NOT A VIRUS. this game uses c# with win 32 api calls to manipulate your system. the game dosent do anything bad to your pc.
 i took very much insperation from kinito pet.The game still containst very much bugs.
+# video demo
+<iframe width="560" height="315" src="https://www.youtube.com/embed/YkipFigfKHk?si=xs0xs2uIbOmN9JeV" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 # how to run
 1.download from itch io https://antkiler5.itch.io/companionexe
